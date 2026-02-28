@@ -274,22 +274,6 @@ Methods returning multiple results provide a `PaginatorModel`, which typically i
 
 ---
 
-# Error Handling
-
-Some methods may throw exceptions (e.g., `getSubscriberByEmail`).
-
-It is recommended to wrap calls in try/catch blocks:
-
-```php
-try {
-    $subscriber = $subscriberApi->getSubscriberByEmail('email@example.com');
-} catch (\Exception $e) {
-    // handle error
-}
-```
-
----
-
 # Requirements
 
 * PHP 8+
