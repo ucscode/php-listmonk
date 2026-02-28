@@ -25,7 +25,7 @@ class ListBuilder
             ->setName($list['name'])
             ->setId($list['id'])
             ->setDescription($list['description'])
-            ->setTags($list['tags'])
+            ->setTags($list['tags'] ?? [])
             ->setIsPublic($isPublic)
             ->setOptinSingle($isOptinSimple)
             ->setCreatedAt($created)
