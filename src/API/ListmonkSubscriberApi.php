@@ -11,6 +11,7 @@ use Junisan\ListmonkApi\UseCases\Subscribers\CreateSubscriber;
 use Junisan\ListmonkApi\UseCases\Subscribers\GetAllSubscribers;
 use Junisan\ListmonkApi\UseCases\Subscribers\GetSubscriberByEmail;
 use Junisan\ListmonkApi\UseCases\Subscribers\GetSubscriberById;
+use Junisan\ListmonkApi\UseCases\Subscribers\UpdateSubscriber;
 
 class ListmonkSubscriberApi
 {
@@ -35,6 +36,12 @@ class ListmonkSubscriberApi
         return $useCase->__invoke($subscriber, $preconfirmedSubscriptions);
     }
 
+    public function updateSubscriber(SubscriberModel $subscriber, bool $preconfirmedSubscriptions = false): SubscriberModel
+    {
+        $useCase = new UpdateSubscriber($this->api, $this->builder);
+        return $useCase->__invoke($subscriber, $preconfirmedSubscriptions);
+    }
+
     public function getAllSubscriber(int $page = 1, int $perPage = 100): PaginatorModel
     {
         $useCase = new GetAllSubscribers($this->api, $this->builder);
@@ -44,13 +51,13 @@ class ListmonkSubscriberApi
     /**
      * @throws \Exception
      */
-    public function getSubscriberByEmail(string $email): SubscriberModel
+    public function getSubscriberByEmail(string $email): ?SubscriberModel
     {
         $useCase = new GetSubscriberByEmail($this->api, $this->builder);
         return $useCase->__invoke($email);
     }
 
-    public function getSubscriberById(int $id): SubscriberModel
+    public function getSubscriberById(int $id): ?SubscriberModel
     {
         $useCase = new GetSubscriberById($this->api, $this->builder);
         return $useCase->__invoke($id);
