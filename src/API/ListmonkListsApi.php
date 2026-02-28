@@ -5,6 +5,7 @@ namespace Junisan\ListmonkApi\API;
 use Junisan\ListmonkApi\Builders\ListBuilder;
 use Junisan\ListmonkApi\Models\ListModel;
 use Junisan\ListmonkApi\Models\PaginatorModel;
+use Junisan\ListmonkApi\UseCases\Lists\CreateList;
 use Junisan\ListmonkApi\UseCases\Lists\GetAllLists;
 use Junisan\ListmonkApi\UseCases\Lists\GetListById;
 
@@ -19,10 +20,11 @@ class ListmonkListsApi
         $this->listBuilder = $listBuilder ?? new ListBuilder();
     }
 
-    // public function createList(ListModel $list): ListModel
-    // {
-
-    // }
+    public function createList(ListModel $list): ListModel
+    {
+        $useCase = new CreateList($this->api, $this->listBuilder);
+        return $useCase->__invoke($list);
+    }
 
     public function getAllLists(int $page = 1, int $perPage = 100): PaginatorModel
     {

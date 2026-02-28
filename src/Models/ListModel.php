@@ -13,7 +13,8 @@ class ListModel
     private ?string $name;
     private ?string $description;
     private ?bool $isPublic; // true -> public; false -> private
-    private ?bool $optinSimple; //true -> single ; false -> double
+    private ?bool $optinSingle; //true -> single ; false -> double
+    private ?bool $isActive = true; // true -> active; false -> archived
 
     /** @var string[] */
     private array $tags = [];
@@ -51,14 +52,14 @@ class ListModel
         return $this;
     }
 
-    public function getOptinSimple(): ?bool
+    public function getOptinSingle(): ?bool
     {
-        return $this->optinSimple;
+        return $this->optinSingle;
     }
 
-    public function setOptinSimple(?bool $optinSimple): self
+    public function setOptinSingle(?bool $optinSingle): self
     {
-        $this->optinSimple = $optinSimple;
+        $this->optinSingle = $optinSingle;
         return $this;
     }
 
@@ -73,4 +74,14 @@ class ListModel
         return $this;
     }
 
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): self
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
 }

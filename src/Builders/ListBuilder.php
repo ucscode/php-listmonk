@@ -12,8 +12,10 @@ class ListBuilder
     {
         $created = new DateTime($list['created_at']);
         $updated = new DateTime($list['updated_at']);
+
         $isPublic = $list['type'] === 'public';
         $isOptinSimple = $list['optin'] === 'single';
+        $isActive = $list['status'] === 'active';
 
         $objectBase = array_key_exists('subscription_status', $list)
             ? new ListSubscriptionModel() : new ListModel();
@@ -25,9 +27,10 @@ class ListBuilder
             ->setDescription($list['description'])
             ->setTags($list['tags'])
             ->setIsPublic($isPublic)
-            ->setOptinSimple($isOptinSimple)
+            ->setOptinSingle($isOptinSimple)
             ->setCreatedAt($created)
             ->setUpdatedAt($updated)
+            ->setIsActive($isActive)
         ;
 
         if ($object instanceof ListSubscriptionModel) {
