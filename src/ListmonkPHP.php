@@ -15,7 +15,7 @@ class ListmonkPHP
     private ListmonkListsApi $listsApi;
     private ListmonkCampaignsApi $campaignsApi;
 
-    public function __construct(string $url, array $credentials = [], ClientInterface $client = null)
+    public function __construct(string $url, array $credentials = [], ?ClientInterface $client = null)
     {
         $username = $credentials['username'] ?? null;
         $password = $credentials['password'] ?? null;

@@ -26,7 +26,7 @@ class GetSubscriberByEmail
         $url = "/subscribers?query=subscribers.email = '$email'";
         try {
             $subscriberData = $this->api->get($url);
-            if (!$subscriberData['results'] || count($subscriberData['results'] ) !== 1) {
+            if (!$subscriberData['results'] || count($subscriberData['results']) !== 1) {
                 throw new ApiClientException('Subscriber not found');
             }
 

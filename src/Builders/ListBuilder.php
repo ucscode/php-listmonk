@@ -28,7 +28,7 @@ class ListBuilder
             ->setOptinSimple($isOptinSimple)
             ->setCreatedAt($created)
             ->setUpdatedAt($updated)
-            ;
+        ;
 
         if ($object instanceof ListSubscriptionModel) {
             $created = new DateTime($list['subscription_created_at']);
@@ -38,7 +38,7 @@ class ListBuilder
                 ->setSubscriptionStatus($list['subscription_status'])
                 ->setSubscriptionCreatedAt($created)
                 ->setSubscriptionUpdatedAt($updated)
-                ;
+            ;
         }
 
         return $object;

@@ -13,11 +13,16 @@ class ListmonkListsApi
     private ListmonkApi $api;
     private ListBuilder $listBuilder;
 
-    public function __construct(ListmonkApi $api, ListBuilder $listBuilder = null)
+    public function __construct(ListmonkApi $api, ?ListBuilder $listBuilder = null)
     {
         $this->api = $api;
         $this->listBuilder = $listBuilder ?? new ListBuilder();
     }
+
+    // public function createList(ListModel $list): ListModel
+    // {
+
+    // }
 
     public function getAllLists(int $page = 1, int $perPage = 100): PaginatorModel
     {

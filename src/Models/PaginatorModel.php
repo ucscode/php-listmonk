@@ -11,7 +11,8 @@ class PaginatorModel
     private int $perPage;
     private int $page;
 
-    public function __construct(array $results, int $total, int $perPage, int $page) {
+    public function __construct(array $results, int $total, int $perPage, int $page)
+    {
         $this->results = $results;
         $this->total = $total;
         $this->perPage = $perPage;

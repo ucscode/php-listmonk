@@ -17,7 +17,7 @@ class PreviewCampaign
     public function __invoke(int $campaignId): ?string
     {
         try {
-            $previewContent = $this->api->post('/campaigns/'.$campaignId.'/preview', []);
+            $previewContent = $this->api->post('/campaigns/' . $campaignId . '/preview', []);
             return $previewContent['preview'] ?? null;
         } catch (ApiClientException $e) {
             return null;

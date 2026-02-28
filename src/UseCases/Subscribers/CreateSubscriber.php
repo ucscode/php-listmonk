@@ -24,10 +24,10 @@ class CreateSubscriber
             'name' => $subscriber->getName(),
             'status' => $subscriber->getStatus(),
             'lists' => $subscriber->getLists(),
-            'preconfirm_subscriptions' => $preconfirmedSubscriptions
+            'preconfirm_subscriptions' => $preconfirmedSubscriptions,
         ];
 
-        if($subscriber->getAttributes()->count()) {
+        if ($subscriber->getAttributes()->count()) {
             $data['attribs'] = $subscriber->getAttributes()->getAll();
         }
 

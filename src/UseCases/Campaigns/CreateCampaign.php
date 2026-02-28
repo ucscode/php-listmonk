@@ -31,7 +31,7 @@ class CreateCampaign
             'send_at' => $campaign->getSendAt(),
             'messenger' => 'email', //not implemented
             'template_id' => $campaign->getTemplateId(),
-            'tags' => $campaign->getTags()
+            'tags' => $campaign->getTags(),
         ];
         $dataResponse = $this->api->post('/campaigns', $data);
         return $this->campaignBuilder->__invoke($dataResponse);

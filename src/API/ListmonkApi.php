@@ -20,7 +20,7 @@ class ListmonkApi
     private string $username;
     private string $password;
 
-    public function __construct(string $url, ?string $username = null, ?string $password = null, ClientInterface $client = null)
+    public function __construct(string $url, ?string $username = null, ?string $password = null, ?ClientInterface $client = null)
     {
         $this->url = $url;
         $this->username = $username;
@@ -36,7 +36,7 @@ class ListmonkApi
     public function post(string $path, array $data)
     {
         $guzzleData = [
-            'json' => $data
+            'json' => $data,
         ];
 
         return $this->request('post', $path, $guzzleData);
@@ -45,7 +45,7 @@ class ListmonkApi
     public function put(string $path, array $data)
     {
         $guzzleData = [
-            'json' => $data
+            'json' => $data,
         ];
 
         return $this->request('put', $path, $guzzleData);
@@ -72,7 +72,7 @@ class ListmonkApi
             $response = $this->client->request($method, $url, $data);
 
             //Preview feature does not response with default schema. Returns response without processing it
-            if($this->isCampaignPreviewPath($path)) {
+            if ($this->isCampaignPreviewPath($path)) {
                 return ['preview' => $response->getBody()->getContents() ];
             }
 
@@ -84,11 +84,11 @@ class ListmonkApi
             }
         } catch (ClientException $e) {
             //Client send invalid data or not found
-            $message = $this->error2message($e);
+            $message = $this->error2message($e, 'Client');
             throw new ApiClientException($message);
         } catch (ServerException $e) {
             //Server is broken
-            $message = $this->error2message($e);
+            $message = $this->error2message($e, 'Server');
             throw new ApiServerException($message);
         } catch (TransferException $e) {
             //Error in network
@@ -105,16 +105,47 @@ class ListmonkApi
         return preg_match($pattern, $path);
     }
 
-    protected function error2message(RequestException $e)
+    protected function error2message(RequestException $e, string $agent)
     {
         if (!$e->hasResponse()) {
             return 'Invalid response or no response was given from server';
         }
 
-        $response = $e->getResponse()->getBody()->getContents();
-        $json = json_decode($response, true);
+        $body = $e->getResponse()->getBody()->getContents();
+        $json = json_decode($body, true);
 
-        return (JSON_ERROR_NONE === json_last_error() && array_key_exists('message', $json))
-            ? $json['message'] : 'Unknown error from API';
+        if (json_last_error() === JSON_ERROR_NONE) {
+            $errorMessage = $json['message'] ?? $json['error'] ?? null;
+
+            if ($errorMessage) {
+                return sprintf("%s Error: %s", $agent, $errorMessage);
+            }
+        }
+
+        // 2. Fallback: Parse HTML using native DOMDocument
+        $dom = new \DOMDocument();
+
+        // Suppress warnings for malformed HTML common in 404/500 pages
+        libxml_use_internal_errors(true);
+        $dom->loadHTML($body, LIBXML_NOWARNING | LIBXML_NOERROR);
+        libxml_clear_errors();
+
+        $xpath = new \DOMXPath($dom);
+
+        // Look for the most descriptive tags in order of priority
+        // We target <h1> (main error), then <title> (page status)
+        $nodes = $xpath->query('//h1 | //title');
+
+        $errorMessage = 'Unknown HTML Error';
+
+        if ($nodes->length > 0) {
+            // Get the first match (usually H1 if present, otherwise Title)
+            $errorMessage = trim($nodes->item(0)->nodeValue);
+        }
+
+        // Clean up any remaining artifacts and truncate if still too long
+        $errorMessage = mb_strimwidth($errorMessage, 0, 150, '...');
+
+        return sprintf("%s Error: %s", $agent, $errorMessage);
     }
 }

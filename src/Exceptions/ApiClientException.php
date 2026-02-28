@@ -2,7 +2,4 @@
 
 namespace Junisan\ListmonkApi\Exceptions;
 
-class ApiClientException extends ApiException
-{
-
-}
+class ApiClientException extends ApiException {}

@@ -41,6 +41,6 @@ class CampaignBuilder
             ->setBounces($data['bounces'])
             ->setCreatedAt($created)
             ->setUpdatedAt($updated)
-            ;
+        ;
     }
 }

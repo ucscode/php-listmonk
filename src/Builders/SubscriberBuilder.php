@@ -24,7 +24,7 @@ class SubscriberBuilder
         $created = new DateTime($subscriber['created_at']);
         $updated = new DateTime($subscriber['updated_at']);
 
-        $lists = array_map(function($listData) {
+        $lists = array_map(function ($listData) {
             //If $listData is an array with more info, build list with builder.
             if (is_array($listData)) {
                 return $this->listSubscriptionBuilder->__invoke($listData);
@@ -43,6 +43,6 @@ class SubscriberBuilder
             ->setUuid($subscriber['uuid'])
             ->setAttributes($this->attributesBuilder->__invoke($subscriber['attribs'] ?? []))
             ->setLists($lists)
-            ;
+        ;
     }
 }

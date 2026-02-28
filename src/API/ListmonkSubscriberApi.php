@@ -19,14 +19,13 @@ class ListmonkSubscriberApi
 
     public function __construct(
         ListmonkApi $api,
-        SubscriberBuilder $builder = null,
-        SubscriberAttributesBuilder $attributesBuilder = null,
-        ListBuilder $listSubscriptionBuilder = null
-    )
-    {
+        ?SubscriberBuilder $builder = null,
+        ?SubscriberAttributesBuilder $attributesBuilder = null,
+        ?ListBuilder $listSubscriptionBuilder = null
+    ) {
         $this->api = $api;
-        $attributesBuilder = $attributesBuilder ?? new SubscriberAttributesBuilder();
-        $listSubscriptionBuilder = $listSubscriptionBuilder ?? new ListBuilder();
+        $attributesBuilder ??= new SubscriberAttributesBuilder();
+        $listSubscriptionBuilder ??= new ListBuilder();
         $this->builder = $builder ?? new SubscriberBuilder($attributesBuilder, $listSubscriptionBuilder);
     }
 

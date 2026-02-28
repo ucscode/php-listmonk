@@ -25,7 +25,7 @@ class ChangeCampaignStatus
         }
 
         $data = [
-            'status' => $newStatus
+            'status' => $newStatus,
         ];
 
         $response = $this->api->put('/campaigns/' . $id . '/status', $data);

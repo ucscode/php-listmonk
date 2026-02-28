@@ -16,7 +16,7 @@ class ListmonkCampaignsApi
     private ListmonkApi $api;
     private CampaignBuilder $campaignBuilder;
 
-    public function __construct(ListmonkApi $api, CampaignBuilder $campaignBuilder = null)
+    public function __construct(ListmonkApi $api, ?CampaignBuilder $campaignBuilder = null)
     {
         $this->api = $api;
         $this->campaignBuilder = $campaignBuilder ?? new CampaignBuilder();
